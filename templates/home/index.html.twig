@@ -3,11 +3,95 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-    <div class="input-group md-form form-sm form-1 pl-0">
-        <div class="input-group-prepend">
+    <section class="section1">
+        <div class="searc">
+            <div class="input-group md-form form-sm form-1 pl-0">
+                <div class="input-group-prepend">
     <span class="input-group-text cyan lighten-2" id="basic-text1"><i class="fas fa-search text-white"
                                                                       aria-hidden="true"></i></span>
+                </div>
+                <input class="form-control my-0 py-1" type="text" placeholder="Search" aria-label="Search">
+            </div>
         </div>
-        <input class="form-control my-0 py-1" type="text" placeholder="Search" aria-label="Search">
+        <div class="specialities">
+            <div class="speciality">
+                <h4>Ophtalmologie</h4>
+            </div><div class="speciality">
+                <h4>Gynecologie</h4>
+            </div><div class="speciality">
+                <h4>Dermatologie</h4>
+            </div><div class="speciality">
+                <h4>Urologie</h4>
+            </div><div class="speciality">
+                <h4>Medecine Interne</h4>
+            </div>
+            <div class="speciality">
+                <h4>Orthopedie</h4>
+            </div>
+        </div>
+    </section>
+    <hr>
+    <div class="title">
+        <h4 class="section-title">Actualites</h4>
+    </div>
+    <section class="actualites">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <img src="{{ asset('images/images/red-blood-cells-3188223_1920.jpg') }}" alt="image" class="img-fluid">
+                    <div class="content pt-3">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                            Ad aliquam cum dolores illum reiciendis sed sint voluptate.
+                            Assumenda enim, fugit id incidunt ipsam maxime nostrum optio quia rerum ullam vel?</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <img src="{{ asset('images/images/red-blood-cells-3188223_1920.jpg') }}" alt="image" class="img-fluid">
+                    <div class="content pt-3">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                            Ad aliquam cum dolores illum reiciendis sed sint voluptate.
+                            Assumenda enim, fugit id incidunt ipsam maxime nostrum optio quia rerum ullam vel?</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <img src="{{ asset('images/images/red-blood-cells-3188223_1920.jpg') }}" alt="image" class="img-fluid">
+                    <div class="content pt-3">
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                            Ad aliquam cum dolores illum reiciendis sed sint voluptate.
+                            Assumenda enim, fugit id incidunt ipsam maxime nostrum optio quia rerum ullam vel?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr>
+    <div class="title">
+        <h4 class="section-title">Medecins</h4>
+    </div>
+
+    <div class="footer bg-dark">
+        <div class="container p-2">
+            <div class="row justify-content-center">
+                <div class="speciality">
+                    <h6>Gynecologie</h6>
+                </div><div class="speciality">
+                    <h6>Obstetrique</h6>
+                </div><div class="speciality">
+                    <h6>Chirurgie</h6>
+                </div><div class="speciality">
+                    <h6>Orthopedie</h6>
+                </div><div class="speciality">
+                    <h6>Ophtalmologie</h6>
+                </div><div class="speciality">
+                    <h6>Gyn/Ob</h6>
+                </div><div class="speciality">
+                    <h6>Gyn/Ob</h6>
+                </div>
+                <div class="speciality">
+                    <h6>Gyn/Ob</h6>
+                </div>
+            </div>
+        </div>
+        <p class="text-center">&#169 Copyright 2020</p>
     </div>
 {% endblock %}

@@ -1,2 +1,79 @@
 @import "~bootstrap/scss/bootstrap";
 @import "~@fortawesome/fontawesome-free/css/all.css";
+@import "navbar";
+
+h1, h2, h3, h4, h5, h6{
+  color: #444;
+}
+hr{
+  background-color: rgba(193, 189, 189, 0.4);
+}
+.title{
+  text-align: center;
+  position: relative;
+}
+.section-title{
+  position: relative;
+  margin-bottom: 2.5rem;
+}
+.section-title::after{
+  position: absolute;
+  top: 2rem;
+  transform: translateX(-50%);
+  content: "";
+  background-color: #17a2b8;
+  height: .3rem;
+  border-radius: 5px;
+  width: 6rem;
+  left: 50%;
+}
+.specialities{
+  display: flex;
+  margin-top: 1.2rem;
+  .speciality{
+    margin-right: .2rem;
+    background-color: rgba(250, 250, 250, 0.38);
+    padding: 4px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    cursor: pointer;
+    transition: all 2s;
+  }
+  .speciality:hover{
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 4px;
+  }
+
+}
+/*section1 */
+.section1{
+  max-width: 100%;
+  background-image: url("bg1.jpg");
+  object-fit: cover;
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+  justify-content: center;
+  align-items: center;
+}
+/*footer */
+.footer{
+  color: #FFFFFF;
+  h4, h5 ,h6{
+    color: #FFFFFF !important;
+  }
+  .speciality{
+    background: none;
+    border: none;
+    margin: 5px;
+  }
+}
+
+/* mobile device */
+@media only screen and (max-width: 600px) {
+  .section1{
+    .specialities{
+      display: none;
+    }
+  }
+}
