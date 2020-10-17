@@ -4,6 +4,11 @@ namespace App\Controller\Admin;
 
 use App\Entity\Actualite;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ActualiteCrudController extends AbstractCrudController
 {
@@ -12,14 +17,14 @@ class ActualiteCrudController extends AbstractCrudController
         return Actualite::class;
     }
 
-    /*
+
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
             TextField::new('title'),
-            TextEditorField::new('description'),
+            TextEditorField::new('content'),
+            ImageField::new('CoverImage'),
         ];
     }
-    */
+
 }

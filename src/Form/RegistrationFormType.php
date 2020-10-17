@@ -4,10 +4,12 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,8 +24,18 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('lastName', TextType::class)
             ->add('firstName', TextType::class)
-            ->add('email', EmailType::class)
-            ->add('confirmMail', EmailType::class)
+            ->add('email', RepeatedType::class, [
+                'type' => EmailType::class,
+                'invalid_message' => 'Les emails doivent etre identique',
+                'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'S\'il vous plait entrer votre email'
+                    ])
+                ],
+                'first_options' => ['label' =>'Entrer votre email'],
+                'second_options' => ['label' => 'Confirmer votre email' ]
+            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
@@ -32,25 +44,26 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('plainPassword', PasswordType::class, [
+            ->add('plainPassword', RepeatedType::class, [
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
+                'type' => PasswordType::class,
                 'mapped' => false,
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'S\'il vous plait entrer un mot de pass valide',
                     ]),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'Votre mot de pass doit avoir au moins {{ limit }} characteres',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),
                 ],
+                'first_options' => ['label' =>'Entrer votre mot de pass'],
+                'second_options' => ['label' => 'Confirmer votre mot de pass' ]
             ])
-            ->add('confirmPass', PasswordType::class)
-            ->add('birthDay', DateType::class)
-        ;
+            ->add('birthDay', BirthdayType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver)

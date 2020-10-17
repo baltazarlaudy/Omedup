@@ -1,4 +1,19 @@
 .wrapper{
+  .log-button{
+    display: flex;
+    justify-content: center;
+    margin-top: .5rem;
+  }
+  .meta-log{
+    margin: 4px;
+    display: flex;
+    justify-content: space-between;
+    a{
+      text-align: end;
+      font-weight: bold;
+      color: #000000;
+    }
+  }
   display: flex;
   justify-content: center;
   align-items: center;
@@ -7,6 +22,32 @@
   background-position: center;
   object-fit: cover;
   height: 100vh;
+  .login-form{
+    width: 40%;
+    padding: 2rem;
+    background-color: rgba(223, 227, 241, 0.45);
+    border-radius: 5px;
+    h1{
+      text-align: center;
+      color: #012625;
+      position: relative;
+      margin-bottom: 20px;
+    }
+    h1:after{
+      content: "";
+      background: #FFFFFF;
+      width: 7rem;
+      position: absolute;
+      top: 3.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 2px;
+    }
+    label{
+      color: #012625;
+      font-weight: bold;
+    }
+  }
   .signup-form{
     width: 60%;
     padding: 2rem;

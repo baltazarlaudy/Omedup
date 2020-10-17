@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -51,41 +52,6 @@ class User implements UserInterface
      */
     private $firstName;
 
-    private $confirmMail;
-
-    private $confirmPass;
-
-    /**
-     * @return mixed
-     */
-    public function getConfirmMail()
-    {
-        return $this->confirmMail;
-    }
-
-    /**
-     * @param mixed $confirmMail
-     */
-    public function setConfirmMail($confirmMail): void
-    {
-        $this->confirmMail = $confirmMail;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getConfirmPass()
-    {
-        return $this->confirmPass;
-    }
-
-    /**
-     * @param mixed $confirmPass
-     */
-    public function setConfirmPass($confirmPass): void
-    {
-        $this->confirmPass = $confirmPass;
-    }
     /**
      * @ORM\Column(type="string", length=255)
      */
@@ -100,6 +66,11 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255)
      */
     private $sexe;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Profil::class, mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $profil;
 
     public function getId(): ?int
     {
@@ -222,6 +193,7 @@ class User implements UserInterface
 
     public function setSlug(string $slug): self
     {
+
         $this->slug = $slug;
 
         return $this;
@@ -250,4 +222,31 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function getProfil(): ?Profil
+    {
+        return $this->profil;
+    }
+
+    public function setProfil(?Profil $profil): self
+    {
+        $this->profil = $profil;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newUser = null === $profil ? null : $this;
+        if ($profil->getUser() !== $newUser) {
+            $profil->setUser($newUser);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString(): string
+    {
+        return $this->lastName;
+    }
+
 }
