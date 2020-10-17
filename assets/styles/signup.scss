@@ -1,0 +1,40 @@
+.wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url('bg1.jpg');
+  background-size: cover;
+  background-position: center;
+  object-fit: cover;
+  height: 100vh;
+  .signup-form{
+    width: 60%;
+    padding: 2rem;
+    background-color: rgba(223, 227, 241, 0.45);
+    border-radius: 5px;
+    h1{
+      text-align: center;
+      color: #012625;
+      position: relative;
+      margin-bottom: 20px;
+    }
+    h1:after{
+      content: "";
+      background: #FFFFFF;
+      width: 7rem;
+      position: absolute;
+      top: 3.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 2px;
+    }
+    label{
+      color: #012625;
+      font-weight: bold;
+    }
+  }
+  button{
+    background-color: #FFFFFF;
+    outline-color: #0d5e42;
+  }
+}

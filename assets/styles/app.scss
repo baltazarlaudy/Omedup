@@ -1,6 +1,7 @@
 @import "~bootstrap/scss/bootstrap";
 @import "~@fortawesome/fontawesome-free/css/all.css";
 @import "navbar";
+@import "signup";
 
 h1, h2, h3, h4, h5, h6{
   color: #444;
@@ -12,6 +13,26 @@ hr{
   text-align: center;
   position: relative;
 }
+.online-doctor{
+  display: flex;
+  justify-content: space-around;
+  .content{
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .fa{
+    text-align: center;
+    font-size: 5rem;
+    padding: 5px;
+    color: #0d5e42;
+  }
+  .fa-stethoscope{
+    transform: rotate(180deg);
+  }
+}
 .section-title{
   position: relative;
   margin-bottom: 2.5rem;
@@ -21,7 +42,7 @@ hr{
   top: 2rem;
   transform: translateX(-50%);
   content: "";
-  background-color: #17a2b8;
+  background-color: #0d5e42;
   height: .3rem;
   border-radius: 5px;
   width: 6rem;
@@ -72,6 +93,7 @@ hr{
 /* mobile device */
 @media only screen and (max-width: 600px) {
   .section1{
+    display: none;
     .specialities{
       display: none;
     }
