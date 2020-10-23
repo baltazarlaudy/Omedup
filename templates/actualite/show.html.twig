@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ news.title }}{% endblock %}
+
+{% block body %}
+    {% include './Components/section1.html.twig' %}
+<div class="container">
+    <div class="row mt-2">
+        <div class="col-md-8">
+            <div class="card-title">
+                <h3 class="text-uppercase">{{ news.title }}</h3>
+                <img src="{{ vich_uploader_asset(news, 'imageFile') }}" alt="Image" class="img-fluid">
+            </div>
+            {{ news.content| raw }}
+        </div>
+        <div class="col-md-4">
+
+        </div>
+    </div>
+</div>
+{% endblock %}

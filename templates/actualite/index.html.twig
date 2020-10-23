@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Actualite index{% endblock %}
+
+{% block body %}
+    <h1>Actualite index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Content</th>
+                <th>CoverImage</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>Slug</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for actualite in news %}
+            <tr>
+                <td>{{ actualite.id }}</td>
+                <td>{{ actualite.title }}</td>
+                <td>{{ actualite.content }}</td>
+                <td>{{ actualite.coverImage }}</td>
+                <td>{{ actualite.createdAt ? actualite.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ actualite.updatedAt ? actualite.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ actualite.slug }}</td>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

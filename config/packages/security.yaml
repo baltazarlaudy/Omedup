@@ -14,24 +14,30 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
+        admin:
+            pattern: ^/admin/
             anonymous: true
             lazy: true
             provider: app_user_provider
             guard:
                 authenticators:
-                    - App\Security\AppCustomAuthentificatorAuthenticator
                     - App\Security\AdminAppAuthenticator
-                entry_point: App\Security\AdminAppAuthenticator
+            entry_point: App\Security\AdminAppAuthenticator
+
+        main:
+            pattern: ^/
+            anonymous: true
+            lazy: true
+            provider: app_user_provider
+            guard:
+                authenticators:
+                    - App\Security\AppCustomAuthentificator
+            entry_point: App\Security\AppCustomAuthentificator
 
             logout:
                 path: app_logout
                 # where to redirect after logout
                 # target: app_any_route
-
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
-
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
@@ -39,4 +45,4 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/user, roles: ROLE_USER }

@@ -10,7 +10,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class AdminSecurityController extends AbstractController
 {
     /**
-     * @Route("/login", name="app_login")
+     * @Route("/omedup-admin", name="admin_login")
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {

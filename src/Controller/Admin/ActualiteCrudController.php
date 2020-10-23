@@ -23,7 +23,10 @@ class ActualiteCrudController extends AbstractCrudController
         return [
             TextField::new('title'),
             TextEditorField::new('content'),
-            ImageField::new('CoverImage'),
+            ImageField::new('imageFile')
+                ->setLabel('Image')
+                ->setFormType(VichImageType::class)
+
         ];
     }
 

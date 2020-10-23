@@ -3,11 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\ActualiteRepository;
-use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=ActualiteRepository::class)
+ * @Vich\Uploadable
  */
 class Actualite
 {
@@ -34,19 +37,45 @@ class Actualite
     private $coverImage;
 
     /**
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
 
     /**
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(type="datetime")
      */
     private $updatedAt;
 
     /**
+     * @Gedmo\Slug(fields={"title"})
      * @ORM\Column(type="string", length=255)
      */
     private $slug;
+
+    /**
+     * @Vich\UploadableField(mapping="products_image", fileNameProperty="coverImage")
+     * @var File
+     */
+    private $imageFile;
+
+    /**
+     * @return mixed
+     */
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+
+    public function setImageFile(File $coverImage = null)
+    {
+        $this->imageFile = $coverImage;
+        if($coverImage){
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
 
     public function getId(): ?int
     {
@@ -120,9 +149,13 @@ class Actualite
 
     public function setSlug(string $slug): self
     {
-        $slugify = new Slugify();
-        $this->slug = $slugify->slugify($this->title);
+        if ($slug = null){
+            return $this->slug;
+        }
 
         return $this;
+    }
+    public function getResume(){
+        return strip_tags(substr($this->content, 0, 150));
     }
 }
