@@ -21,7 +21,7 @@ class HomeController extends AbstractController
     public function index(ActualiteRepository $actualite)
     {
         return $this->render('home/home.html.twig', [
-            'actualite' => $actualite->findAll()
+            'actualite' => $actualite->findLimit(6)
         ]);
     }
 }

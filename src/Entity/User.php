@@ -84,6 +84,11 @@ class User implements UserInterface
      */
     private $comments;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Status::class, inversedBy="user")
+     */
+    private $status;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -295,6 +300,18 @@ class User implements UserInterface
                 $comment->setComment(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getStatus(): ?Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?Status $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

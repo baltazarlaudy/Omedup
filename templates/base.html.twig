@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}Omedup{% endblock %}</title>
         {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -12,6 +12,9 @@
                 {% include './Components/navigation.html.twig' %}
             {% endblock %}
         {% block body %}{% endblock %}
+            {% block footer %}
+                {% include './Components/footer.html.twig' %}
+            {% endblock %}
         {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
         {% endblock %}

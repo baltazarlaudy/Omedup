@@ -156,6 +156,6 @@ class Actualite
         return $this;
     }
     public function getResume(){
-        return strip_tags(substr($this->content, 0, 150));
+        return strip_tags(substr($this->content, 0, 100));
     }
 }

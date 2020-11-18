@@ -7,28 +7,28 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Title</th>
-                <th>Content</th>
-                <th>CoverImage</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>Slug</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>Content</th>
+            <th>CoverImage</th>
+            <th>CreatedAt</th>
+            <th>UpdatedAt</th>
+            <th>Slug</th>
+            <th>actions</th>
+        </tr>
         </thead>
         <tbody>
         {% for actualite in news %}
             <tr>
                 <td>{{ actualite.id }}</td>
                 <td>{{ actualite.title }}</td>
-                <td>{{ actualite.content }}</td>
-                <td>{{ actualite.coverImage }}</td>
-                <td>{{ actualite.createdAt ? actualite.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ actualite.updatedAt ? actualite.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ actualite.content | raw }}</td>
+                <td><img src="{{ vich_uploader_asset(actualite, 'imageFile') }}" alt="" class="img-thumbnail"></td>
+                <td>{{ actualite.createdAt ? actualite.createdAt|date('Y-m-d') : '' }}</td>
+                <td>{{ actualite.updatedAt ? actualite.updatedAt|date('Y-m-d') : '' }}</td>
                 <td>{{ actualite.slug }}</td>
-
+                <td> <a href="{{ path('news_actualite_edit', {'id': actualite.id}) }}"><i class="fas fa-pencil"></i> Edit</a></td>
             </tr>
         {% else %}
             <tr>

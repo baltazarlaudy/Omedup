@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Actualite;
 use App\Form\ActualiteType;
 use App\Repository\ActualiteRepository;
+use App\Repository\CommentRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,8 +16,19 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class ActualiteController extends AbstractController
 {
+
     /**
-     * @Route("/", name="home", methods={"GET"})
+     * @Route("/home", name="home", methods={"GET"})
+     * @param ActualiteRepository $actualite
+     * @return Response
+     */
+    public function home(ActualiteRepository $actualite){
+        return $this->render('actualite/home.html.twig',[
+            'items' => $actualite->findAll()
+        ]);
+    }
+    /**
+     * @Route("/", name="liste", methods={"GET"})
      */
     public function index(ActualiteRepository $actualiteRepository): Response
     {
@@ -50,15 +62,21 @@ class ActualiteController extends AbstractController
 
     /**
      * @Route("/{slug}", name="show", methods={"GET"})
+     * @param Actualite $news
+     * @param ActualiteRepository $actualite
+     * @return Response
      */
-    public function show(Actualite $news): Response
+    public function show(Actualite $news, ActualiteRepository $actualite, CommentRepository $comments): Response
     {
         return $this->render('actualite/show.html.twig', [
             'news' => $news,
+            'actualite' => $actualite->findLimit(10),
+            'comments' => $comments->findAll()
         ]);
     }
 
     /**
+     * is_granted("ROLE_EDITOR")
      * @Route("/{id}/edit", name="actualite_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Actualite $actualite): Response

@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-sm navbar-dark sticky-top shadow">
-    <a class="navbar-brand" href="#"><img src="{{ asset('images/logo/logo-transparent.png') }}" alt="Logo"></a>
+    <a class="navbar-brand" href="{{ path('home')}}"><img src="{{ asset('images/logo/logo-transparent.png') }}" alt="Logo"></a>
     <button class="navbar-toggler d-lg-none" type="button" data-toggle="collapse" data-target="#collapsibleNavId"
             aria-controls="collapsibleNavId"
             aria-expanded="false" aria-label="Toggle navigation">
@@ -11,20 +11,20 @@
                 <a class="nav-link" href="{{ path('home') }}"> <i class="fas fa-home"></i> Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
+                <a class="nav-link" href="{{ path('news_home') }}">Actualit&eacute;s</a>
             </li>
         </ul>
         <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             {% if app.user %}
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_logout') }}">Deconnexion</a>
+                <a class="nav-link" href="{{ path('app_logout') }}">D&eacute;connexion</a>
             </li>
             {% else %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('app_login') }}">login</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_register') }}">Creer un compte</a>
+                <a class="nav-link" href="{{ path('app_register') }}">Cr&eacute;er un compte</a>
             </li>
             {% endif %}
         </ul>
