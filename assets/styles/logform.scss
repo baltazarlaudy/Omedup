@@ -79,3 +79,13 @@
     outline-color: #0d5e42;
   }
 }
+@media only screen and (max-width: 600px) {
+  .wrapper {
+    .login-form {
+      width: 90%;
+    }
+    .signup-form{
+      width: 90%;
+    }
+  }
+}
