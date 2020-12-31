@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use App\Repository\ProfilRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=ProfilRepository::class)
@@ -27,6 +30,13 @@ class Profil
      */
     private $avatar;
 
+
+
+    /**
+     * @Vich\UploadableField(mapping="profil_image", fileNameProperty="coverImage")
+     * @var File
+     */
+    private $imageFile;
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
@@ -37,11 +47,38 @@ class Profil
      */
     private $user;
 
+    /**
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(type="datetime")
+     */
+    private $created_at;
+
+    /**
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $updated_at;
+
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    public function setImageFile(File $coverImage = null)
+    {
+        $this->imageFile = $coverImage;
+        if($coverImage){
+            $this->updatedAt = new \DateTime('now');
+        }
+    }
+    /**
+     * @return File
+     */
+    public function getImageFile(): File
+    {
+        return $this->imageFile;
+    }
     public function getDescription(): ?string
     {
         return $this->description;
@@ -86,6 +123,34 @@ class Profil
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+    public function __toString()
+    {
+        return $this->user;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }

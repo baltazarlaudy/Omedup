@@ -1,7 +1,143 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UserController!{% endblock %}
+{% block title %}Hello User!{% endblock %}
 
 {% block body %}
+    <div class="container-fluid p-3">
+        <div class="row border-top">
+            <div class="col-md-3 mt-2 border-right">
+                <div class="left-profil">
+                    <div class="id-profil border-bottom">
+                        <h6>Jane Doe</h6>
+                        <div class="img-profil">
+                            <img src="{{ asset('./images/images/dna-163466_1280.jpg') }}" alt="profil">
+                        </div>
+                        <h6>Changer de photo</h6>
+                        <p><b class="text-success">Patient</b></p>
+                    </div>
+                    <hr>
+                    <div class="left-profil-detail">
+                        <div class="meta">
+                            <a href="#"><i class="fa fa-file-medical"></i> Mes dossiers</a>
+                        </div>
+                        <hr>
+                        <div class="meta">
+                            <a href="#"><i class="fa fa-user-injured"></i> Mes Patients</a>
+                        </div>
+                        <hr>
+                        <div class="meta">
+                            <a href="#"><i class="fa fa-comment-medical"></i> Mes Recommendations</a>
+                        </div>
+                        <hr>
+                        <div class="meta">
+                            <a href="#"><i class="fa fa-laptop-medical"></i> Mes reservations</a>
+                        </div>
+                        <hr>
+                        <div class="meta">
+                            <a href="#"><i class="fa fa-prescription"></i> Mes Prescriptions</a>
+                        </div>
+                    </div>
+                    <div class="details-profil">
+                        <hr>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3 class="text-info"><i class="fa fa-book-medical"></i> Dashboard</h3>
+                    </div>
+                </div>
+                <div class="profil border-top pb-2">
+                    <div class="row pt-3">
+                        <div class="col-md-12">
+                            <div class="meta-profil">
+                                <div class="meta bg-info"><a href="#" class="text-white">
+                                        <i class="fa fa-stethoscope"> Medecins</i></a>
+                                </div>
+                                <div class="meta bg-info"><a href="#" class="text-white">
+                                        <i class="fa fa-clinic-medical"> Hopitals</i></a>
+                                </div>
+                                <div class="meta bg-info"><a href="#" class="text-white">
+                                        <i class="fa fa-prescription"> Pharmacie</i></a>
+                                </div>
+                                <div class="meta bg-info"><a href="#" class="text-white">
+                                        <i class="fa fa-pump-medical"> Laboratoire</i></a>
+                                </div>
+                                <div class="meta bg-info"><a href="#" class="text-white">
+                                        <i class="fa fa-ambulance"> Urgences</i></a>
+                                </div>
 
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row pt-3">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4">
+                                    <div class="doc-profil bg-light border rounded">
+                                        <img src="{{ asset('./images/images/head-659651_1920.png') }}" alt="avatar">
+                                        <div>
+                                            <p><h6>Jane Doe</h6>
+                                            <i>Generaliste</i>
+                                            <p/>
+                                            <a href="#" class="text-success">Me contacter</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    <div class="doc-profil bg-light border rounded">
+                                        <img src="{{ asset('./images/images/head-659651_1920.png') }}" alt="avatar">
+                                        <div>
+                                            <p><h6>Joseph Antoine</h6>
+                                            <i>Gynecologue</i></p>
+                                            <a href="#" class="text-success">Me contacter</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    <div class="doc-profil bg-light border rounded">
+                                        <img src="{{ asset('./images/images/head-659651_1920.png') }}" alt="avatar">
+                                        <div>
+                                            <p><h6>Joseph Antoine</h6>
+                                            <i>Interniste</i></p>
+                                            <a href="#" class="text-success">Me contacter</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row p-3">
+                        <div class="col-md-4">
+                            <div class="bg-light border rounded p-2">
+                                <h5 class="text-center">Dernieres Examens</h5>
+                                <blockote>
+                                    pas de prescrition
+                                </blockote>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="bg-light border rounded p-2">
+                                <h5 class="text-center">Dernieres prescriptions</h5>
+                                <blockote>
+                                    pas de prescrition
+                                </blockote>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="bg-light border rounded p-2">
+                                <h5 class="text-center">Dernieres Recommendation</h5>
+                                <blockote>
+                                    pas de prescrition
+                                </blockote>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

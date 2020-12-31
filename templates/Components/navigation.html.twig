@@ -14,6 +14,31 @@
                 <a class="nav-link" href="{{ path('news_home') }}">Actualit&eacute;s</a>
             </li>
         </ul>
+        <ul class="navbar-nav profil-nav">
+            {% if app.user %}
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa fa-prescription"> Prescriptions</i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa fa-envelope"> Messages</i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa fa-stethoscope"> Medecins</i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fa fa-comment-medical"> Recommendations</i>
+                    </a>
+                </li>
+
+            {% endif %}
+        </ul>
         <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
             {% if app.user %}
             <li class="nav-item">

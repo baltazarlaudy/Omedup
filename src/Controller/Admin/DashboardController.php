@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Actualite;
+use App\Entity\Profil;
 use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -19,7 +20,7 @@ class DashboardController extends AbstractDashboardController
      */
     public function index(): Response
     {
-        return $this->render('@EasyAdmin/welcome.html.twig');
+        return $this->render('Bundles/EasyAdminBundle/welcome.html.twig');
     }
 
     public function configureDashboard(): Dashboard
@@ -33,5 +34,6 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linktoDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('Utilisateurs', 'fa fa-users', User::class);
         yield MenuItem::linkToCrud('Actualites' , 'fa fa-newspaper', Actualite::class);
+        yield MenuItem::linkToCrud('Profiles', 'fa fa-users', Profil::class);
     }
 }

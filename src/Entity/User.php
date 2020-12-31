@@ -85,13 +85,20 @@ class User implements UserInterface
     private $comments;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Status::class, inversedBy="user")
+     * @ORM\OneToMany(targetEntity=Recommendations::class, mappedBy="user")
      */
-    private $status;
+    private $recommendations;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Prescriptions::class, mappedBy="user")
+     */
+    private $prescriptions;
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->recommendations = new ArrayCollection();
+        $this->prescriptions = new ArrayCollection();
     }
 
 
@@ -312,6 +319,66 @@ class User implements UserInterface
     public function setStatus(?Status $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Recommendations[]
+     */
+    public function getRecommendations(): Collection
+    {
+        return $this->recommendations;
+    }
+
+    public function addRecommendation(Recommendations $recommendation): self
+    {
+        if (!$this->recommendations->contains($recommendation)) {
+            $this->recommendations[] = $recommendation;
+            $recommendation->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecommendation(Recommendations $recommendation): self
+    {
+        if ($this->recommendations->removeElement($recommendation)) {
+            // set the owning side to null (unless already changed)
+            if ($recommendation->getUser() === $this) {
+                $recommendation->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Prescriptions[]
+     */
+    public function getPrescriptions(): Collection
+    {
+        return $this->prescriptions;
+    }
+
+    public function addPrescription(Prescriptions $prescription): self
+    {
+        if (!$this->prescriptions->contains($prescription)) {
+            $this->prescriptions[] = $prescription;
+            $prescription->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePrescription(Prescriptions $prescription): self
+    {
+        if ($this->prescriptions->removeElement($prescription)) {
+            // set the owning side to null (unless already changed)
+            if ($prescription->getUser() === $this) {
+                $prescription->setUser(null);
+            }
+        }
 
         return $this;
     }

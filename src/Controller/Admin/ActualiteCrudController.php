@@ -21,8 +21,8 @@ class ActualiteCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        $imageField = ImageField::new('imageFile')
-            ->setLabel('Image')
+        $imageFile = TextField::new('imageFile')
+            ->hideOnIndex()
             ->setFormType(VichImageType::class);
 
         $coverImage = ImageField::new('coverImage')
@@ -36,7 +36,7 @@ class ActualiteCrudController extends AbstractCrudController
         if ($pageName === Crud::PAGE_INDEX || $pageName === Crud::PAGE_DETAIL) {
             $fields[] = $coverImage;
         } else {
-            $fields[] = $imageField;
+            $fields[] = $imageFile;
         }
         return $fields;
     }

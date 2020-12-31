@@ -24,15 +24,6 @@ class Status
      */
     private $status;
 
-    /**
-     * @ORM\OneToMany(targetEntity=User::class, mappedBy="status")
-     */
-    private $user;
-
-    public function __construct()
-    {
-        $this->user = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -51,36 +42,7 @@ class Status
         return $this;
     }
 
-    /**
-     * @return Collection|User[]
-     */
-    public function getUser(): Collection
-    {
-        return $this->user;
-    }
 
-    public function addUser(User $user): self
-    {
-        if (!$this->user->contains($user)) {
-            $this->user[] = $user;
-            $user->setStatus($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): self
-    {
-        if ($this->user->contains($user)) {
-            $this->user->removeElement($user);
-            // set the owning side to null (unless already changed)
-            if ($user->getStatus() === $this) {
-                $user->setStatus(null);
-            }
-        }
-
-        return $this;
-    }
     public function __toString()
     {
         return $this->status;
