@@ -1,0 +1,10 @@
+{% extends 'user/user_home.html.twig' %}
+{% block content %}
+    <div class="messages" id="messages" data-id="{{ conversation.id }}" data-username="{{ username }}">
+
+    </div>
+    <form action="{{ path('message_post', {'id': conversation.id}) }}" method="post" id="form_message">
+        <input type="text" name="content" placeholder="votre message">
+        <button class="btn btn-primary">Envoyer</button>
+    </form>
+{% endblock %}
