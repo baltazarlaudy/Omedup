@@ -37,12 +37,17 @@ class UserController extends AbstractController
      */
     public function index()
     {
+        $users = $this->userRepository->findAllOtherUser(
+            $this->getUser()->getId(),
+            3
+        );
         $user = $this->userRepository->findUserById(
             $this->getUser()->getId()
         );
 
         return $this->render('user/user_home.html.twig', [
-           'user' => $user
+           'user' => $user,
+            'users' =>$users
         ]);
     }
 

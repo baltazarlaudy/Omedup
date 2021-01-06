@@ -75,4 +75,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ->setParameter('userId', $userId);
         return $qb->getQuery()->getOneOrNullResult();
     }
+
+    public function findAllOtherUser(int $userId, int $limit)
+    {
+        $qb = $this->createQueryBuilder('u');
+        $qb->select('u.firstName', 'u.lastName', 'u.id', 'pf.avatar')
+            ->leftJoin('u.profil', 'pf')
+            ->where($qb->expr()->neq(
+            'u.id', ':userId'
+        ))
+            ->orderBy('u.id', 'DESC')
+            ->setMaxResults($limit)
+        ->setParameter('userId', $userId);
+        return $qb->getQuery()->getResult();
+    }
 }
