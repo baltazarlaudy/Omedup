@@ -1,22 +1,35 @@
 <div class="left-profil">
     <div class="id-profil border-bottom">
-        <h6>Jane Doe</h6>
+        <h6>{{ user.firstName }} {{ user.lastName }}</h6>
         <div class="img-profil">
-            <img src="{{ asset('./images/images/head-659651_1920.png') }}" alt="profil">
+            {% if user.avatar == null %}
+                <img src="{{ asset('./images/images/head-659651_1920.png') }}" alt="profil">
+            {% else %}
+                <img src="{{ user.avatar }}" alt="profil">
+            {% endif %}
         </div>
+        {% ifif %}
         <h6>Changer de photo</h6>
-        <p><b class="text-success">Patient</b></p>
+        <p><b class="text-success">
+                {% if user.statut == null %}
+                    Patient
+                {% else %}
+                    {{ user.statut }}
+                {% endif %}
+            </b></p>
     </div>
     <hr>
     <div class="left-profil-detail">
-        <div class="meta">
-            <a href="#"><i class="fa fa-file-medical"></i> Mes dossiers</a>
-        </div>
-        <hr>
-        <div class="meta">
-            <a href="#"><i class="fa fa-user-injured"></i> Mes Patients</a>
-        </div>
-        <hr>
+        {% if user.statut == 'medecin' %}
+            <div class="meta">
+                <a href="#"><i class="fa fa-file-medical"></i> Mes dossiers</a>
+            </div>
+            <hr>
+            <div class="meta">
+                <a href="#"><i class="fa fa-user-injured"></i> Mes Patients</a>
+            </div>
+            <hr>
+        {% endif %}
         <div class="meta">
             <a href="#"><i class="fa fa-comment-medical"></i> Mes Recommendations</a>
         </div>

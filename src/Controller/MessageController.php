@@ -25,7 +25,7 @@ use Symfony\Component\Serializer\SerializerInterface;
  */
 class MessageController extends AbstractController
 {
-    const DATA_TO_SERIELIZE = ['id', 'content', 'createdAt', 'mine', 'username'];
+    const DATA_TO_SERIELIZE = ['id', 'content', 'createdAt', 'mine'];
     /**
      * @var ConversationRepository
      */
@@ -61,7 +61,7 @@ class MessageController extends AbstractController
                                 ParticipantRepository $participantRepository,
                                 PublisherInterface $publisher,
                                 SerializerInterface $serializer,
-MessageBusInterface $bus)
+                                MessageBusInterface $bus)
     {
         $this->conversationRepository = $conversationRepository;
         $this->messageRepository = $messageRepository;
@@ -76,7 +76,8 @@ MessageBusInterface $bus)
      * @Route("/", name="index", methods={"GET"})
      * @return Response
      */
-    public function messageJson(){
+    public function messageJson()
+    {
         $id = $this->getUser()->getId();
         $conversation = $this->conversationRepository->findOtherUserInConversation(
             $this->getUser()->getId()
@@ -84,10 +85,10 @@ MessageBusInterface $bus)
 
 
         return $this->render('user/message/message_index.html.twig',
-        [
-            'conversation' => $conversation,
-            'userid' => $id
-        ]);
+            [
+                'conversation' => $conversation,
+                'userid' => $id
+            ]);
     }
 
     /**
@@ -101,6 +102,10 @@ MessageBusInterface $bus)
 
         $messages = $this->messageRepository->getMessageByConversation(
             $conversation->getId()
+        );
+        $otherUser = $this->participantRepository->findOtherUser(
+            $conversation->getId(),
+            $this->getUser()->getId()
         );
         array_map(function ($message) {
             $message->setMine(
@@ -116,10 +121,10 @@ MessageBusInterface $bus)
             'attributes' => self::DATA_TO_SERIELIZE
         ]);*/
 
-        return $this->render('user/message/message_user.html.twig',[
-        'data' => $messages,
+        return $this->render('user/message/message_user.html.twig', [
+            'data' => $messages,
             'conversation' => $conversation,
-            'username' => $this->getUser()->getUsername()
+            'username' => $this->getUser()->getId()
         ]);
     }
 
@@ -127,10 +132,12 @@ MessageBusInterface $bus)
      * @Route("/{id}", name="post", methods={"POST"})
      * @param Conversation $conversation
      * @param Request $request
+     * @param PublisherInterface $publisher
      * @return JsonResponse
      */
     public function postMessage(Conversation $conversation,
-                                Request $request
+                                Request $request,
+                                PublisherInterface $publisher
     )
     {
         $otherUser = $this->participantRepository->findOtherUser(
@@ -155,7 +162,7 @@ MessageBusInterface $bus)
             $entityManager->persist($message);
             $entityManager->persist($conversation);
 
-             $entityManager->flush();
+            $entityManager->flush();
 
             $entityManager->commit();
 
@@ -166,24 +173,20 @@ MessageBusInterface $bus)
         }
 
         $messageSerialize = $this->serializer->serialize($message, 'json', [
-            'attributes' => [...self::DATA_TO_SERIELIZE, 'conversation'=>['id']]
+            'attributes' => [...self::DATA_TO_SERIELIZE, 'conversation' => ['id']]
         ]);
         $update = new Update(
-            [
-                sprintf("/conversation/%s", $conversation->getId()),
-                sprintf('/message/%s', $otherUser->getUser()->getUsername())
-            ],
-            $messageSerialize,
-            true,
-            /*[
-                sprintf("/conversation/%s", $conversation->getId()),
-                sprintf('/message/%s', $otherUser->getUser()->getId())
-            ],
-            $messageSerialize,
-            true*/
-            //[sprintf("/%s", $otherUser->getUser()->getId())]
+            '/conversation/',
+            $messageSerialize
+        /*[
+            sprintf("/conversation/%s", $conversation->getId()),
+            sprintf('/message/%s', $otherUser->getUser()->getId())
+        ],
+        $messageSerialize,
+        true*/
+        //[sprintf("/%s", $otherUser->getUser()->getId())]
         );
-         $this->bus->dispatch($update);
+        $publisher($update);
         return $this->json([$message], Response::HTTP_CREATED, [], [
             'attributes' => self::DATA_TO_SERIELIZE
         ]);

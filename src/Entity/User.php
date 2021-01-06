@@ -16,7 +16,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
-
+ * @UniqueEntity(fields={"username"}, message="There is already an account with this username")
  */
 class User implements UserInterface
 {
@@ -109,6 +109,9 @@ class User implements UserInterface
      */
     private $username;
 
+    /**
+     * User constructor.
+     */
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -119,16 +122,26 @@ class User implements UserInterface
     }
 
 
+    /**
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * @return string|null
+     */
     public function getEmail(): ?string
     {
         return $this->email;
     }
 
+    /**
+     * @param string $email
+     * @return $this
+     */
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -143,7 +156,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->username;
+        return (string)$this->username;
     }
 
     /**
@@ -158,6 +171,10 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param array $roles
+     * @return $this
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -170,9 +187,13 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
+    /**
+     * @param string $password
+     * @return $this
+     */
     public function setPassword(string $password): self
     {
         $this->password = $password;
@@ -197,11 +218,18 @@ class User implements UserInterface
         // $this->plainPassword = null;
     }
 
+    /**
+     * @return bool
+     */
     public function isVerified(): bool
     {
         return $this->isVerified;
     }
 
+    /**
+     * @param bool $isVerified
+     * @return $this
+     */
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
@@ -209,11 +237,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getLastName(): ?string
     {
         return $this->lastName;
     }
 
+    /**
+     * @param string $lastName
+     * @return $this
+     */
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
@@ -221,11 +256,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getFirstName(): ?string
     {
         return $this->firstName;
     }
 
+    /**
+     * @param string $firstName
+     * @return $this
+     */
     public function setFirstName(string $firstName): self
     {
         $this->firstName = $firstName;
@@ -233,25 +275,39 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getSlug(): ?string
     {
         return $this->slug;
     }
 
+    /**
+     * @param string $slug
+     * @return $this
+     */
     public function setSlug(string $slug): self
     {
-    if($slug = null){
-        $slugs = new Slugify();
-        $this->slug = $slugs->slugify($this->lastName.uniqid());
-    }
+        if ($slug = null) {
+            $slugs = new Slugify();
+            $this->slug = $slugs->slugify($this->lastName . uniqid());
+        }
         return $this;
     }
 
+    /**
+     * @return \DateTimeInterface|null
+     */
     public function getBirthDay(): ?\DateTimeInterface
     {
         return $this->birthDay;
     }
 
+    /**
+     * @param \DateTimeInterface $birthDay
+     * @return $this
+     */
     public function setBirthDay(\DateTimeInterface $birthDay): self
     {
         $this->birthDay = $birthDay;
@@ -259,11 +315,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string|null
+     */
     public function getSexe(): ?string
     {
         return $this->sexe;
     }
 
+    /**
+     * @param string $sexe
+     * @return $this
+     */
     public function setSexe(string $sexe): self
     {
         $this->sexe = $sexe;
@@ -271,11 +334,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return Profil|null
+     */
     public function getProfil(): ?Profil
     {
         return $this->profil;
     }
 
+    /**
+     * @param Profil|null $profil
+     * @return $this
+     */
     public function setProfil(?Profil $profil): self
     {
         $this->profil = $profil;
@@ -305,6 +375,10 @@ class User implements UserInterface
         return $this->comments;
     }
 
+    /**
+     * @param Comment $comment
+     * @return $this
+     */
     public function addComment(Comment $comment): self
     {
         if (!$this->comments->contains($comment)) {
@@ -315,6 +389,10 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param Comment $comment
+     * @return $this
+     */
     public function removeComment(Comment $comment): self
     {
         if ($this->comments->contains($comment)) {
@@ -328,11 +406,18 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return Status|null
+     */
     public function getStatus(): ?Status
     {
         return $this->status;
     }
 
+    /**
+     * @param Status|null $status
+     * @return $this
+     */
     public function setStatus(?Status $status): self
     {
         $this->status = $status;
@@ -348,6 +433,10 @@ class User implements UserInterface
         return $this->recommendations;
     }
 
+    /**
+     * @param Recommendations $recommendation
+     * @return $this
+     */
     public function addRecommendation(Recommendations $recommendation): self
     {
         if (!$this->recommendations->contains($recommendation)) {
@@ -358,6 +447,10 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param Recommendations $recommendation
+     * @return $this
+     */
     public function removeRecommendation(Recommendations $recommendation): self
     {
         if ($this->recommendations->removeElement($recommendation)) {
@@ -378,6 +471,10 @@ class User implements UserInterface
         return $this->prescriptions;
     }
 
+    /**
+     * @param Prescriptions $prescription
+     * @return $this
+     */
     public function addPrescription(Prescriptions $prescription): self
     {
         if (!$this->prescriptions->contains($prescription)) {
@@ -388,6 +485,10 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param Prescriptions $prescription
+     * @return $this
+     */
     public function removePrescription(Prescriptions $prescription): self
     {
         if ($this->prescriptions->removeElement($prescription)) {
@@ -408,6 +509,10 @@ class User implements UserInterface
         return $this->messages;
     }
 
+    /**
+     * @param Message $message
+     * @return $this
+     */
     public function addMessage(Message $message): self
     {
         if (!$this->messages->contains($message)) {
@@ -418,6 +523,10 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param Message $message
+     * @return $this
+     */
     public function removeMessage(Message $message): self
     {
         if ($this->messages->removeElement($message)) {
@@ -438,6 +547,10 @@ class User implements UserInterface
         return $this->participants;
     }
 
+    /**
+     * @param Participant $participant
+     * @return $this
+     */
     public function addParticipant(Participant $participant): self
     {
         if (!$this->participants->contains($participant)) {
@@ -448,6 +561,10 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param Participant $participant
+     * @return $this
+     */
     public function removeParticipant(Participant $participant): self
     {
         if ($this->participants->removeElement($participant)) {
@@ -460,6 +577,10 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @param string $username
+     * @return $this
+     */
     public function setUsername(string $username): self
     {
         $this->username = $username;
@@ -467,4 +588,11 @@ class User implements UserInterface
         return $this;
     }
 
+    /**
+     * @return string
+     */
+    public function getFullName(): string
+    {
+        return $this->firstName . ' ' . $this->lastName;
+    }
 }

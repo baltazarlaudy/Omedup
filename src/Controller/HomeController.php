@@ -35,7 +35,7 @@ class HomeController extends AbstractController
     public function index(ActualiteRepository $actualite, Request $request)
     {
         if($this->getUser()) {
-            $id = $this->getUser()->getUsername();
+            $id = $this->getUser()->getId();
 
             $secret = base64_encode($this->getParameter('mercure_secret_key'));
 
@@ -49,7 +49,7 @@ class HomeController extends AbstractController
 
 
             $token = $configuration->builder()
-                ->withClaim('mercure', ['subscribe' => [sprintf("/%s", $id)]])
+                ->withClaim('mercure', ['subscribe' => ["*"]])
                 ->getToken($configuration->signer(), $configuration->signingKey())
                 ->toString();
 
@@ -62,11 +62,10 @@ class HomeController extends AbstractController
                 ->withValue($token)
                 ->withExpires($now->modify('+2 hour'))
                 ->withPath('/.well-known/mercure')
-                ->withSecure(false)
+                ->withSecure(true)
                 ->withHttpOnly(true)
                 ->withSameSite('strict');
             $response->headers->setCookie($cookie);
-
             return $response;
         }
         return $this->render('home/home.html.twig', [

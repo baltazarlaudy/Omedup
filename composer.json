@@ -15,6 +15,7 @@
         "easycorp/easyadmin-bundle": "^3.1",
         "friendsofsymfony/ckeditor-bundle": "^2.2",
         "google/recaptcha": "^1.2",
+        "helios-ag/fm-elfinder-bundle": "^10.0",
         "knplabs/knp-time-bundle": "^1.14",
         "lcobucci/jwt": "^4.0",
         "nelmio/cors-bundle": "^2.1",
@@ -95,7 +96,8 @@
     "scripts": {
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
-            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+            "assets:install %PUBLIC_DIR%": "symfony-cmd",
+            "elfinder:install": "symfony-cmd"
         },
         "post-install-cmd": [
             "@auto-scripts"
@@ -109,7 +111,7 @@
     },
     "extra": {
         "symfony": {
-            "allow-contrib": false,
+            "allow-contrib": "true",
             "require": "5.1.*"
         }
     }
