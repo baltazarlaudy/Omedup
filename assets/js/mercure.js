@@ -65,7 +65,7 @@ window.onload = () =>{
             headers: headers,
             body: formData
         })
-        console.log(inputText.value)
+        inputText.value=""
     }
 
     formPostMessage.addEventListener('submit', postMessage)
