@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Participant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Participant|null find($id, $lockMode = null, $lockVersion = null)
@@ -53,13 +54,45 @@ class ParticipantRepository extends ServiceEntityRepository
 
         $qb->where($qb->expr()->andX(
             $qb->expr()->neq('p.user', ':myId'),
-            $qb->expr()->neq('p.conversation', ':conversationId')
+            $qb->expr()->eq('p.conversation', ':conversationId')
         ))
         ->setParameters([
             'myId' => $myId,
             'conversationId' => $conversationId
         ]);
 
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getConvId(int $myId, int $otherUser)
+    {
+        $qb = $this->createQueryBuilder('p');
+        $qb->select('p.conversation')
+        ->where($qb->expr()->andX(
+            $qb->expr()->eq('p.user', ':myId'),
+            $qb->expr()->eq('p.user', ':otherUser')
+        ))
+        ->setParameters([
+            'myId' =>$myId,
+            'otherUser' => $otherUser
+        ]);
+    return $qb->getQuery()->getResult();
+    }
+
+    public function findParticipantByConversationIdandUserId(?int $conversationId, int $userId)
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        $qb->where(
+            $qb->expr()->andX(
+                $qb->expr()->eq('p.conversation', ':conversationId'),
+                $qb->expr()->neq('p.user', ':userId')
+            ))
+        ->setParameters([
+            'conversationId' => $conversationId,
+            'userId' => $userId
+        ]);
         return $qb->getQuery()->getOneOrNullResult();
+
     }
 }

@@ -145,4 +145,22 @@ class ConversationRepository extends ServiceEntityRepository
             ->setParameter('myId', $myId);
         return $qb->getQuery()->getResult();
     }
+
+    public function getConvId(int $myId, int $otherUser)
+    {
+        $qb = $this->createQueryBuilder('c');
+        $qb->select('c.id')
+            ->innerJoin('c.participants', 'p', Join::WITH, $qb->expr()->eq('p.user', ':myId'))
+            ->innerJoin('c.participants', 'ot', Join::WITH, $qb->expr()->eq('ot.user', ':otherUser'))
+            ->where($qb->expr()->andX(
+            $qb->expr()->eq('p.user', ':myId'),
+            $qb->expr()->eq('ot.user', ':otherUser' )
+        ))
+        ->setParameters([
+            'myId' => $myId,
+            'otherUser' => $otherUser
+        ]);
+        return $qb->getQuery()->getOneOrNullResult();
+    }
+
 }

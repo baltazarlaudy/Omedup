@@ -4,10 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Conversation;
 use App\Entity\Message;
-use App\Entity\User;
 use App\Repository\ConversationRepository;
 use App\Repository\MessageRepository;
 use App\Repository\ParticipantRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,8 +20,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
 
+
 /**
- * @Route("/dashboard/message", name="message_")
+ * @Route("/private/message", name="private_message_")
  */
 class MessageController extends AbstractController
 {
@@ -54,6 +55,10 @@ class MessageController extends AbstractController
      * @var MessageBusInterface
      */
     private MessageBusInterface $bus;
+    /**
+     * @var UserRepository
+     */
+    private UserRepository $userRepository;
 
     public function __construct(ConversationRepository $conversationRepository,
                                 MessageRepository $messageRepository,
@@ -61,7 +66,8 @@ class MessageController extends AbstractController
                                 ParticipantRepository $participantRepository,
                                 PublisherInterface $publisher,
                                 SerializerInterface $serializer,
-                                MessageBusInterface $bus)
+                                MessageBusInterface $bus,
+                                UserRepository $userRepository)
     {
         $this->conversationRepository = $conversationRepository;
         $this->messageRepository = $messageRepository;
@@ -70,43 +76,22 @@ class MessageController extends AbstractController
         $this->publisher = $publisher;
         $this->serializer = $serializer;
         $this->bus = $bus;
+        $this->userRepository = $userRepository;
     }
 
     /**
-     * @Route("/", name="index", methods={"GET"})
-     * @return Response
-     */
-    public function messageJson()
-    {
-        $id = $this->getUser()->getId();
-        $conversation = $this->conversationRepository->findOtherUserInConversation(
-            $this->getUser()->getId()
-        );
-
-
-        return $this->render('user/message/message_index.html.twig',
-            [
-                'conversation' => $conversation,
-                'userid' => $id
-            ]);
-    }
-
-    /**
-     * @Route("/{id}", name="get", methods={"GET"})
+     * @Route("/json/{id}", name="getMessageJson", methods={"GET"})
      * @param Conversation $conversation
      * @return Response
      */
-    public function index(Conversation $conversation): Response
+    public function jsonData(Conversation $conversation): Response
     {
         $this->denyAccessUnlessGranted('view', $conversation);
 
         $messages = $this->messageRepository->getMessageByConversation(
             $conversation->getId()
         );
-        $otherUser = $this->participantRepository->findOtherUser(
-            $conversation->getId(),
-            $this->getUser()->getId()
-        );
+
         array_map(function ($message) {
             $message->setMine(
                 $message->getUser()->getId() == $this->getUser()->getId()
@@ -117,19 +102,51 @@ class MessageController extends AbstractController
             'attributes' => self::DATA_TO_SERIELIZE
         ]);
 
-        /*return $this->json([$data], Response::HTTP_OK, [], [
-            'attributes' => self::DATA_TO_SERIELIZE
-        ]);*/
+        $user = $this->userRepository->findUserById(
+            $this->getUser()->getId()
+        );
 
-        return $this->render('user/message/message_user.html.twig', [
+        return $this->json([$data], Response::HTTP_OK, [], [
+            'attributes' => self::DATA_TO_SERIELIZE
+        ]);
+    }
+    /**
+     * @Route("/{id}", name="getMessage", methods={"GET"})
+     * @param Conversation $conversation
+     * @return Response
+     */
+    public function index(Conversation $conversation): Response
+    {
+        $this->denyAccessUnlessGranted('view', $conversation);
+
+        $messages = $this->messageRepository->getMessageByConversation(
+            $conversation->getId()
+        );
+
+        array_map(function ($message) {
+            $message->setMine(
+                $message->getUser()->getId() == $this->getUser()->getId()
+            );
+        }, $messages);
+
+        $data = json_encode($messages);
+
+        $user = $this->userRepository->findUserById(
+            $this->getUser()->getId()
+        );
+
+        $this->json([$data], Response::HTTP_OK, [], []);
+
+        return $this->render('user/private_message/postMessage.html.twig', [
             'data' => $messages,
-            'conversation' => $conversation,
-            'username' => $this->getUser()->getId()
+            'convId' => $conversation,
+            'user' => $user
+
         ]);
     }
 
     /**
-     * @Route("/{id}", name="post", methods={"POST"})
+     * @Route("/{id}", name="postMessage", methods={"POST"})
      * @param Conversation $conversation
      * @param Request $request
      * @param PublisherInterface $publisher
@@ -140,19 +157,25 @@ class MessageController extends AbstractController
                                 PublisherInterface $publisher
     )
     {
-        $otherUser = $this->participantRepository->findOtherUser(
+        $recipient = $this->participantRepository->findParticipantByConversationIdandUserId(
             $conversation->getId(),
             $this->getUser()->getId()
         );
+
+
+        /*$otherUser = $this->participantRepository->findOtherUser(
+            $conversation->getId(),
+            $this->getUser()->getId()
+        );*/
 
         $content = $request->get('content', null);
 
         //target for update mercure
 
-
         $message = new Message();
         $message->setUser($this->getUser());
         $message->setContent($content);
+        $message->setMine(true);
 
         $conversation->setLastmessage($message);
         $conversation->addMessage($message);
@@ -172,21 +195,20 @@ class MessageController extends AbstractController
             $e->getMessage();
         }
 
+        $message->setMine(false);
+
         $messageSerialize = $this->serializer->serialize($message, 'json', [
-            'attributes' => [...self::DATA_TO_SERIELIZE, 'conversation' => ['id']]
+            'attributes' => [...self::DATA_TO_SERIELIZE, 'conversation' =>['id'], 'user' => ['username']]
         ]);
+
         $update = new Update(
-            '/conversation/',
+            [sprintf("/message/%s", $conversation->getId())],
             $messageSerialize
-        /*[
-            sprintf("/conversation/%s", $conversation->getId()),
-            sprintf('/message/%s', $otherUser->getUser()->getId())
-        ],
-        $messageSerialize,
-        true*/
-        //[sprintf("/%s", $otherUser->getUser()->getId())]
         );
-        $publisher($update);
+        $this->bus->dispatch($update);
+
+        $message->setMine(true);
+
         return $this->json([$message], Response::HTTP_CREATED, [], [
             'attributes' => self::DATA_TO_SERIELIZE
         ]);

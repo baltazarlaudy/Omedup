@@ -48,15 +48,17 @@ class ConversationController extends AbstractController
     }
 
     /**
-     * @Route("/", name="get", methods={"POST"})
+     * @Route("/create/{id}", name="create")
      * @param Request $request
+     * @param int $id
      * @return Response
      * @throws \Exception
      */
-    public function index(Request $request): Response
+    public function index(Request $request, int $id): Response
     {
-        $otherUser = $request->get('otherUser', 0);
-        $otherUser = $this->userRepository->find($otherUser);
+        //$otherUser = $request->get('otherUser', 0);
+        $otherUser = $this->userRepository->find($id);
+
 
         // verify is user Exist
 
@@ -77,7 +79,7 @@ class ConversationController extends AbstractController
         );
 
         if ($conversation) {
-            throw new \Exception('Conversation already existe');
+
         }
         $conversation = new Conversation();
 
@@ -102,9 +104,10 @@ class ConversationController extends AbstractController
             $this->entityManager->rollback();
             $e->getMessage();
         }
-        return $this->render('conversation/user_home.html.twig', [
+        return $this->redirectToRoute('message_get', array('id' => $conversation));
+        /*return $this->render('conversation/user_home.html.twig', [
             'controller_name' => 'ConversationController',
-        ]);
+        ]);*/
     }
 
     /**

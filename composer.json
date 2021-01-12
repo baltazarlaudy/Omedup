@@ -5,6 +5,7 @@
         "php": ">=7.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "amphp/http-client": "^4.5",
         "api-platform/core": "^2.5",
         "cocur/slugify": "^4.0",
         "composer/package-versions-deprecated": "^1.11",

@@ -9,7 +9,7 @@
                         <p><h6>{{ usersData.firstName }} {{ usersData.lastName }}</h6>
                         <i>Generaliste</i>
                         <p/>
-                        <a href="#" class="text-success">Me contacter</a>
+                        <a href="{{ path('private_get', {'otherUser': usersData.id}) }}" class="text-success">Me contacter</a>
                     </div>
                 </div>
             </div>

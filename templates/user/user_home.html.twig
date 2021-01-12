@@ -5,11 +5,9 @@
 {% block body %}
     <div class="container-fluid p-3">
         <div class="row border-top">
-            {% block left %}
             <div class="col-md-3 mt-2 border-right">
                 {% include 'user/Components/left.html.twig' %}
             </div>
-            {% endblock %}
             <div class="col-md-9">
                 {% block main %}
                 <div class="row">
@@ -17,20 +15,19 @@
                         <h3 class="text-info"><i class="fa fa-book-medical"></i> Dashboard</h3>
                     </div>
                 </div>
+                {% block content %}
                 <div class="profil border-top pb-2">
                     {% include 'user/Components/list_functionality_top.htm.twig' %}
-                    </div>
-                    <hr>
-                {% block personal_list %}
-                    {% include 'user/Components/personal_list.html.twig' %}
-                {% endblock %}
-                    <hr>
-                {% block content %}
-                    {% include 'user/Components/list_fonctionality_left.html.twig' %}
-                {% endblock %}
                 </div>
-            {% endblock %}
+                <hr>
+
+                {% include 'user/Components/personal_list.html.twig' %}
+                <hr>
+                {% include 'user/Components/list_fonctionality_left.html.twig' %}
+                {% endblock %}
             </div>
+            {% endblock %}
         </div>
+    </div>
     </div>
 {% endblock %}
