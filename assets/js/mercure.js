@@ -83,6 +83,7 @@ window.onload = () =>{
     eventSource.onmessage = event => {
         let data = JSON.parse(event.data)
         if(data.user.username != username){
+
             message_history.insertAdjacentHTML('beforeend','<div class="incoming_msg" id="incomming_msg">' +
                 '<div class="incoming_msg_img">\n' +
                 '                            <img src="https://ptetutorials.com/images/user-profile.png" alt="sunil"></div>\n' +
