@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Recommendations
 {
+    use Timestemp;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -31,12 +32,6 @@ class Recommendations
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="recommendations")
      */
     private $user;
-
-    /**
-     * @ORM\OneToOne(targetEntity=CommonEntity::class, cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $date;
 
     public function getId(): ?int
     {
@@ -75,18 +70,6 @@ class Recommendations
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    public function getDate(): ?CommonEntity
-    {
-        return $this->date;
-    }
-
-    public function setDate(CommonEntity $date): self
-    {
-        $this->date = $date;
 
         return $this;
     }

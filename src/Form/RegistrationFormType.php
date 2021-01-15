@@ -30,6 +30,7 @@ class RegistrationFormType extends AbstractType
                     'Autre' => 'Autre'
                 ]
             ])
+            ->add('username', TextType::class)
             ->add('lastName', TextType::class)
             ->add('firstName', TextType::class)
             ->add('email', RepeatedType::class, [
