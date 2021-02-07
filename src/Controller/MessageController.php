@@ -9,6 +9,7 @@ use App\Repository\MessageRepository;
 use App\Repository\ParticipantRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Pusher\Pusher;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +19,6 @@ use Symfony\Component\Mercure\Update;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
-
 
 
 /**
@@ -110,6 +110,7 @@ class MessageController extends AbstractController
             'attributes' => self::DATA_TO_SERIELIZE
         ]);
     }
+
     /**
      * @Route("/{id}", name="getMessage", methods={"GET"})
      * @param Conversation $conversation
@@ -198,7 +199,7 @@ class MessageController extends AbstractController
         $message->setMine(false);
 
         $messageSerialize = $this->serializer->serialize($message, 'json', [
-            'attributes' => [...self::DATA_TO_SERIELIZE, 'conversation' =>['id'], 'user' => ['username']]
+            'attributes' => [...self::DATA_TO_SERIELIZE, 'conversation' => ['id'], 'user' => ['username']]
         ]);
 
         $update = new Update(

@@ -1,3 +1,4 @@
+
 window.onload = () =>{
 
     let messagerie = document.getElementById('messaging')
@@ -47,7 +48,6 @@ window.onload = () =>{
         })
         message_history.scrollTop = message_history.scrollHeight
     }
-
     getData(id)
     // submitButton.disabled = true
     const postMessage = async function (event){
@@ -67,7 +67,6 @@ window.onload = () =>{
         })
         inputText.value=""
     }
-
     formPostMessage.addEventListener('submit', postMessage)
 
     //mercure hub subscriber
