@@ -1,2 +1,2 @@
 echo 'web: heroku-php-apache2 public/'
-web: ADDR=:$PORT ./mercure --jwt-key='!ChangeMe!' --debug --allow-anonymous --cors-allowed-origins='*' --publish-allowed-origins='*'
+web: ADDR=:$PORT $env:MERCURE_PUBLISHER_JWT_KEY='!ChangeMe!'; $env:MERCURE_SUBSCRIBER_JWT_KEY='!ChangeMe!'; .\mercure\mercure.exe run -config Caddyfile.dev
